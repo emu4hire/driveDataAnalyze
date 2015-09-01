@@ -66,8 +66,9 @@ int main(int argc, char ** argv){
 	
 	
 	img = imread(NAME+ "_IMG_" + time_string +".jpg");
-	out.open("~/Documents/test.avi", CV_FOURCC('D', 'I', 'V', 'X') , 1.0, 
-		Size( (int) img.cols, (int) img.rows), true);
+	cerr<<"Opening VideoWriter at ~/Documents/test.avi"<<endl;
+	out.open(NAME+ "_video.avi", CV_FOURCC('D', 'I', 'V', 'X') , 1.0, 
+		Size( (int) img.rows, (int) img.cols), true);
 
 	while(in_file){
 		in_file.getline(dump, 99, '\n');
@@ -79,9 +80,12 @@ int main(int argc, char ** argv){
 		if(timestamp == 0)
 			break;
 		else{
-			img_name = NAME + "_IMG_" + time_string + ".jpg";
-			cerr<<"Opening image "<<img_name<<endl;
+
+			//NEED TO INCLUDE /images subdirectory in name, requires parsing out capture name from path.
+			img_name = NAME + "/images/towork_IMG_" + time_string + ".jpg";
+			cerr<<img_name<<endl;
 			img = imread(img_name);
+	//		imshow("test", img);
 			out.write(img);
 		}
 		
@@ -89,6 +93,7 @@ int main(int argc, char ** argv){
 	}
 	
 	in_file.close();
+	out.release();
 
 	return 0;	
 }
