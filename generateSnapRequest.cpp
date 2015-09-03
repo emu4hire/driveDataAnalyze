@@ -49,8 +49,6 @@ int main(int argc, char ** argv){
 	char buffer[100];
 	double lat[100], lng[100];
 	int i=0;
-	
-	
 
 	do{
 		in >> lat[i];

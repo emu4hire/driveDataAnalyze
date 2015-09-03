@@ -10,6 +10,8 @@ add_executable( vdmaker vdmaker.cpp )
 add_executable( genUniquePose generateUniquePose.cpp)
 add_executable( genSnapRequest generateSnapRequest.cpp)
 add_executable( parseResponse parseSnapResponse.cpp)
+add_executable( genSVRequest generateSVRequests.cpp)
+add_executable( svSnapper svSnapper.cpp)
 
 target_link_libraries( lineFitter ${OpenCV_LIBS} )
 target_link_libraries( vdmaker ${OpenCV_LIBS} )
