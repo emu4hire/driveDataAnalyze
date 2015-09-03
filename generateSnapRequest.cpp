@@ -43,19 +43,43 @@ int main(int argc, char ** argv){
                 exit(1);
         }
 	
+	out<<"https://roads.googleapis.com/v1/snapToRoads?path=";
+
 
 	char buffer[100];
-	double lat, lng;
+	double lat[100], lng[100];
+	int i=0;
+	
+	
 
 	do{
-		in >> lat;
+		in >> lat[i];
 		in.getline(buffer, 100 ,',');
-		in >> lng;
+		in >> lng[i];
 		in.getline(buffer, 100, '\n');
-
-		out<<lat<<","<<lng<<"|";
-			
+	
+		i++;
 	}while(!(in.eof()));
+
+	int k = i;
+	i=0;
+
+	out<<lat[i]<<","<<lng[i];
+	i++;
+
+	while(i<k-1){
+		out<<"|"<<lat[i]<<","<<lng[i];
+		i++;
+	}
+
+	ifstream in_key;
+	in_key.open("key.txt");
+	char key[100];
+
+	in_key.getline(key, 100, '\n');
+	in_key.close();
+
+	out<<"&key="<<key;
 
 	out.close();
 	in.close();

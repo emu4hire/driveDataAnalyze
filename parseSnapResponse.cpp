@@ -72,32 +72,19 @@ int main(int argc, char ** argv){
 
 	do{
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100, ':');
-		cerr<<buffer<<endl;
 		in_response >> lat;
-		cerr<<lat<<endl;
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100, ':');
-		cerr<<buffer<<endl;
 		in_response >> lng;
-		cerr<<lng<<endl;
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 500 ,'}');
-		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100 ,'\n');
-		cerr<<buffer<<endl;
 
 		out<<lat<<" , "<<lng<<" , "<<orient[i]<<endl;
 		i++;
-		cerr<<"iteration"<<endl;
-			
 	}while(i<k);
 
 	out.close();
