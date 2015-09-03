@@ -7,6 +7,7 @@ link_directories( ${OpenCV_LIB_DIR} )
 
 add_executable( lineFitter lineFitter.cpp )
 add_executable( vdmaker vdmaker.cpp )
+add_executable( genUniquePose generateUniquePose.cpp)
 
 target_link_libraries( lineFitter ${OpenCV_LIBS} )
 target_link_libraries( vdmaker ${OpenCV_LIBS} )

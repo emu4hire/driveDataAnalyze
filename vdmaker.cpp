@@ -11,13 +11,14 @@ using namespace cv;
 
 int main(int argc, char ** argv){
 
-	string NAME;
+	string filepath;
+	string capture_name;
 	int delay=0;
 
 	if(argc > 1){
 		int num = 1;
 		
-		NAME = argv[num];
+		filepath = argv[num];
 		num++;
 		while(num < argc){
 			String input = argv[num];	
@@ -35,12 +36,16 @@ int main(int argc, char ** argv){
 		exit(1);
 	}
 
-	cout<<NAME<<" ";
+
+	size_t found = filepath.find_last_of("/");
+	capture_name = filepath.substr(found, filepath.length());
+
+	cout<<filepath<<endl<<capture_name<<endl;
 
 	std::fstream in_file;
 	std::string filename;
 
-	filename = NAME +"_ACCEL.log";
+	filename = filepath + capture_name + "_ACCEL.log";
 
 	in_file.open(filename.c_str());
 
@@ -57,6 +62,7 @@ int main(int argc, char ** argv){
 
 	Mat img;
 	VideoWriter out;
+	string writerpath;
 
 	
 	in_file >> timestamp;
@@ -65,10 +71,12 @@ int main(int argc, char ** argv){
 	time_string = temp.str();
 	
 	
-	img = imread(NAME+ "_IMG_" + time_string +".jpg");
-	cerr<<"Opening VideoWriter at ~/Documents/test.avi"<<endl;
-	out.open(NAME+ "_video.avi", CV_FOURCC('D', 'I', 'V', 'X') , 1.0, 
-		Size( (int) img.rows, (int) img.cols), true);
+	img = imread(filepath + "/images" + capture_name + "_IMG_" + time_string +".jpg");
+
+	writerpath = filepath + "/" + capture_name + "_video.avi";
+	cerr<<"Opening VideoWriter at"<< writerpath<< endl;
+	out.open(writerpath, CV_FOURCC('D', 'I', 'V', 'X') , 5.0, 
+		Size( (int) img.cols, (int) img.rows), true);
 
 	while(in_file){
 		in_file.getline(dump, 99, '\n');
@@ -82,8 +90,8 @@ int main(int argc, char ** argv){
 		else{
 
 			//NEED TO INCLUDE /images subdirectory in name, requires parsing out capture name from path.
-			img_name = NAME + "/images/towork_IMG_" + time_string + ".jpg";
-			cerr<<img_name<<endl;
+			img_name = filepath + "/images" + capture_name + "_IMG_" + time_string + ".jpg";
+			cerr<<"Writing video from: "<< img_name<<endl;
 			img = imread(img_name);
 	//		imshow("test", img);
 			out.write(img);
