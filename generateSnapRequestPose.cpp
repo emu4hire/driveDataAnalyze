@@ -48,7 +48,6 @@ int main(int argc, char ** argv){
 	double lat, lng;
 
 	do{
-		in.getline(buffer, 100 ,',');
 		in >> lat;
 		in.getline(buffer, 100 ,',');
 		in >> lng;

@@ -50,20 +50,21 @@ int main(int argc, char ** argv){
         }
 	
 
-	char buffer[100];
+	char buffer[500];
 	double lat,lng;
 	int orient[9999]; //This is really really bad but I'm too tired to restructure this right now.
 	int i =0;
 
 	do{
-		cerr<<i<<endl;
 		in_orient.getline(buffer, 100 ,',');
 		in_orient.getline(buffer, 100 ,',');
 		in_orient>> orient[i];
 		in_orient.getline(buffer, 100, '\n');
+		in_orient.ignore();
 		i++;
 	}while(!(in_orient.eof()));
 
+	int k = i;
 	i = 0;
 	
 	in_response.getline(buffer, 100 ,'\n');
@@ -71,17 +72,33 @@ int main(int argc, char ** argv){
 
 	do{
 		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
+		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100, ':');
+		cerr<<buffer<<endl;
 		in_response >> lat;
+		cerr<<lat<<endl;
 		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
 		in_response.getline(buffer, 100, ':');
+		cerr<<buffer<<endl;
 		in_response >> lng;
+		cerr<<lng<<endl;
 		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
+		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
+		in_response.getline(buffer, 500 ,'}');
+		cerr<<buffer<<endl;
+		in_response.getline(buffer, 100 ,'\n');
+		cerr<<buffer<<endl;
 
 		out<<lat<<" , "<<lng<<" , "<<orient[i]<<endl;
 		i++;
+		cerr<<"iteration"<<endl;
 			
-	}while(!(in_response.eof()));
+	}while(i<k);
 
 	out.close();
 	in_response.close();

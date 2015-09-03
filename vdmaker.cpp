@@ -73,7 +73,7 @@ int main(int argc, char ** argv){
 	
 	img = imread(filepath + "/images" + capture_name + "_IMG_" + time_string +".jpg");
 
-	writerpath = filepath + "/" + capture_name + "_video.avi";
+	writerpath = filepath + capture_name + "_video.avi";
 	cerr<<"Opening VideoWriter at"<< writerpath<< endl;
 	out.open(writerpath, CV_FOURCC('D', 'I', 'V', 'X') , 5.0, 
 		Size( (int) img.cols, (int) img.rows), true);
