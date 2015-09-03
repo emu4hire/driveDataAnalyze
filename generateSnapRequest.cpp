@@ -21,9 +21,6 @@ int main(int argc, char ** argv){
 	size_t found = filepath.find_last_of("/");
         capturename = filepath.substr(found, filepath.length());
 
-	cout<<filepath<<endl;
-	cout<<capturename<<endl;
-
 	ifstream in;
 	ofstream out;
 
@@ -32,8 +29,8 @@ int main(int argc, char ** argv){
 	
 	infilename = filepath + "/analysis" + capturename + "_uniquePose.dat";
 	outfilename = filepath + "/analysis"+ capturename + "_snapRequest.dat";
-	cout<<"IN:"<<infilename<<endl;
-	cout<<"OUT:"<<outfilename<<endl;
+	cout<<"    --IN:"<<infilename<<endl;
+	cout<<"    --OUT:"<<outfilename<<endl;
 
 	in.open(infilename.c_str());
 	out.open(outfilename.c_str(), std::fstream::out);

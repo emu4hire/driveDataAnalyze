@@ -28,15 +28,12 @@ int main(int argc, char ** argv){
 	size_t found = filepath.find_last_of("/");
         capturename = filepath.substr(found, filepath.length());
 
-	cout<<filepath<<endl;
-	cout<<capturename<<endl;
-
 	ifstream in;
 
 	string infilename;
 	
 	infilename = filepath + "/analysis" + capturename + "_snappedPose.dat";
-	cout<<"IN:"<<infilename<<endl;
+	cout<<"    --IN:"<<infilename<<endl;
 
 	in.open(infilename.c_str());
 
@@ -68,7 +65,7 @@ int main(int argc, char ** argv){
 	ofstream out;
 	string outfilename;
 	outfilename = filepath + "/analysis"+ capturename + "_svRequests.dat";
-	cout<<"OUT:"<<outfilename<<endl;
+	cout<<"    --OUT:"<<outfilename<<endl;
 	out.open(outfilename.c_str(), std::fstream::out);
 
 	if(!out){
@@ -89,7 +86,7 @@ int main(int argc, char ** argv){
 	out.close();
 
         outfilename = filepath + "/analysis"+ capturename + "_svRequestsLeft.dat";
-        cout<<"OUT_LEFT:"<<outfilename<<endl;
+        cout<<"    --OUT_LEFT:"<<outfilename<<endl;
         out.open(outfilename.c_str(), std::fstream::out);
 
         if(!out){
@@ -114,7 +111,7 @@ int main(int argc, char ** argv){
         out.close();
 
         outfilename = filepath + "/analysis"+ capturename + "_svRequestsRight.dat";
-        cout<<"OUT_RIGHT:"<<outfilename<<endl;
+        cout<<"    --OUT_RIGHT:"<<outfilename<<endl;
         out.open(outfilename.c_str(), std::fstream::out);
 
         if(!out){

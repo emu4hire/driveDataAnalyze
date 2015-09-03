@@ -21,9 +21,6 @@ int main(int argc, char ** argv){
 	size_t found = filepath.find_last_of("/");
         capturename = filepath.substr(found, filepath.length());
 
-	cout<<filepath<<endl;
-	cout<<capturename<<endl;
-
 	ifstream in;
 	ofstream out;
 
@@ -35,8 +32,8 @@ int main(int argc, char ** argv){
 	
 	infilename = filepath + capturename + "_LOCATION.log";
 	outfilename = filepath + "/analysis"+ capturename + "_uniquePose.dat";
-	cout<<"IN:"<<infilename<<endl;
-	cout<<"OUT:"<<outfilename<<endl;
+	cout<<"    --IN:"<<infilename<<endl;
+	cout<<"    --OUT:"<<outfilename<<endl;
 
 	in.open(infilename.c_str());
 	out.open(outfilename.c_str(), std::fstream::out);
@@ -45,7 +42,6 @@ int main(int argc, char ** argv){
                 cerr<<"FILE COULD NOT BE OPENED"<<endl;
                 exit(1);
         }
-	
 
 	char buffer[100];
 	double lat, lng, last_lat, last_lng;

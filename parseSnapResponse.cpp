@@ -21,9 +21,6 @@ int main(int argc, char ** argv){
 	size_t found = filepath.find_last_of("/");
         capturename = filepath.substr(found, filepath.length());
 
-	cout<<filepath<<endl;
-	cout<<capturename<<endl;
-
 	ifstream in_response;
 	ifstream in_orient;
 	ofstream out;
@@ -36,9 +33,9 @@ int main(int argc, char ** argv){
 	infilename_orient = filepath +"/analysis" + capturename + "_uniquePose.dat";
 	outfilename = filepath + "/analysis"+ capturename + "_snappedPose.dat";
 
-	cout<<"IN_REPONSE:"<<infilename_response<<endl;
-	cout<<"IN_ORIENT:"<<infilename_orient<<endl;
-	cout<<"OUT:"<<outfilename<<endl;
+	cout<<"    --IN_REPONSE:"<<infilename_response<<endl;
+	cout<<"    --IN_ORIENT:"<<infilename_orient<<endl;
+	cout<<"    --OUT:"<<outfilename<<endl;
 
 	in_response.open(infilename_response.c_str());
 	in_orient.open(infilename_orient.c_str());
