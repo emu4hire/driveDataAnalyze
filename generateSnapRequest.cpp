@@ -67,6 +67,7 @@ int main(int argc, char ** argv){
 		i++;
 	}
 
+	out<<"&interpolate=true";
 	ifstream in_key;
 	in_key.open("key.txt");
 	char key[100];
