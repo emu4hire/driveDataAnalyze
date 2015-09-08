@@ -80,8 +80,10 @@ int main(int argc, char ** argv){
 		in_response.getline(buffer, 500 ,'}');
 		in_response.getline(buffer, 100 ,'\n');
 
-		out<<lat<<" , "<<lng<<" , "<<orient[i]<<endl;
+		out<<lat<<" , "<<lng<<" , "<<orient[i];
 		i++;
+		if(i<k)
+			out<<endl;
 	}while(i<k);
 
 	out.close();

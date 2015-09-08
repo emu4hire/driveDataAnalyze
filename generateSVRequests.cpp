@@ -80,8 +80,10 @@ int main(int argc, char ** argv){
 		out<<"location="<<lat[i]<<","<<lng[i]<<"&";
 		out<<"heading="<<orient[i]<<"&";
 		out<<"key="<<key;
-		out<<"\n";
 		i++;
+
+		if(i<k-1)
+			out<<'\n';
         }
 	out.close();
 
@@ -105,8 +107,10 @@ int main(int argc, char ** argv){
 			temp += 360;
                 out<<"heading="<<temp<<"&";
                 out<<"key="<<key;
-                out<<"\n";
                 i++;
+
+		if(i<k-1)
+                        out<<'\n';
         }
         out.close();
 
@@ -129,8 +133,12 @@ int main(int argc, char ** argv){
 			temp -=360;
                 out<<"heading="<<temp<<"&";
                 out<<"key="<<key;
-                out<<"\n";
+
                 i++;
+
+		if(i<k-1)
+                        out<<'\n';
+
         }
         out.close();
 
