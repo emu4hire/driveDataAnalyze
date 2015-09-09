@@ -48,10 +48,6 @@ int main(int argc, char ** argv){
 	cout<<"  --Making Directories for StreetView Requests"<<endl;
 	command = "mkdir " + filepath + "/analysis/SVCenter";
 	system(command.c_str());
-	command = "mkdir " + filepath + "/analysis/SVLeft";
-	system(command.c_str());
-	command = "mkdir " + filepath + "/analysis/SVRight";
-	system(command.c_str());
 
 	ifstream in;
 
@@ -73,7 +69,7 @@ int main(int argc, char ** argv){
 		intstream << i;
 		incr = intstream.str();
 
-		command = "wget \"" + buffy_the_vampire_slayer + "\" --output-document=" + outName + incr + ".jpg";
+		command = "wget \"" + buffy_the_vampire_slayer + "\" --output-document=" + outName + "_" + incr + ".jpg";
 		cerr<<"BUFFY:"<<buffy_the_vampire_slayer<<endl;
 		cerr<<command<<endl;
 		system(command.c_str());
@@ -81,55 +77,6 @@ int main(int argc, char ** argv){
 		i++;
 
 	}while(in);
-	in.close();
-	i=0;
-	
-	inName = filepath + "/analysis/" + capturename + "_svRequestsRight.dat";
-	outName = filepath + "/analysis/SVRight/afternoon_Right";
-        in.open(inName.c_str());
-
-        do{
-                in.getline(buffer, 200, '\n');
-                buffy_the_vampire_slayer = buffer;
-
-                intstream.str("");
-                intstream << i;
-                incr = intstream.str();
-
-                command = "wget \"" + buffy_the_vampire_slayer + "\" --output-document=" + outName + incr + ".jpg";
-                cerr<<"BUFFY:"<<buffy_the_vampire_slayer<<endl;
-                cerr<<command<<endl;
-                system(command.c_str());
-
-                i++;
-
-        }while(in);
-
-        in.close();
-        i=0;
-
-        inName = filepath + "/analysis/" + capturename + "_svRequestsLeft.dat";
-        outName = filepath + "/analysis/SVLeft/afternoon_Left";
-        in.open(inName.c_str());
-
-
-        do{
-                in.getline(buffer, 200, '\n');
-                buffy_the_vampire_slayer = buffer;
-
-                intstream.str("");
-                intstream << i;
-                incr = intstream.str();
-
-                command = "wget \"" + buffy_the_vampire_slayer + "\" --output-document=" + outName + incr + ".jpg";
-                cerr<<"BUFFY:"<<buffy_the_vampire_slayer<<endl;
-                cerr<<command<<endl;
-                system(command.c_str());
-
-                i++;
-
-        }while(in);
-
 	in.close();
 	
 	return 0;

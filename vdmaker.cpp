@@ -12,53 +12,30 @@ using namespace cv;
 int main(int argc, char ** argv){
 
 	string filepath;
-	string capture_name;
+	string output_name;
 	int delay=0;
 
-	if(argc > 1){
-		int num = 1;
-		
-		filepath = argv[num];
-		num++;
-		while(num < argc){
-			String input = argv[num];	
+	if(argc > 2){
+		filepath= argv[1];
+		output_name = argv[2];
 
-			if( input == "-d" || input == "-D"){
-				num ++;
-				stringstream(argv[num]) >> delay;
-			}
-			num++;
-		}
 	}
 
 	else{
-		cerr<<"NO INPUT SCRUB"<<endl;
+		cerr<<"INPUT ERROR"<<endl;
+		cerr<<"Usage pattern: vdmaker [src filepath] [output filepath] [OPTIONS]"<<endl;
 		exit(1);
 	}
 
+	ifstream img_list;
+	string filename;
+	filename = filepath + "imgList.txt";
+	img_list.open(filename.c_str());
 
-	size_t found = filepath.find_last_of("/");
-	capture_name = filepath.substr(found, filepath.length());
-
-	cout<<filepath<<endl<<capture_name<<endl;
-
-	std::fstream in_file;
-	std::string filename;
-
-	filename = filepath + capture_name + "_ACCEL.log";
-
-	in_file.open(filename.c_str());
-
-	if(!in_file){
-		cerr<<"FILE FUCKUP"<<endl;
+	if(!img_list){
+		cerr<<"Error opening input file";
 		exit(1);
 	}
-
-	int timestamp;
-	string time_string;
-	char dump[100];
-	stringstream temp;
-	string img_name;
 
 	Mat img;
 	VideoWriter out;
@@ -71,7 +48,7 @@ int main(int argc, char ** argv){
 	time_string = temp.str();
 	
 	
-	img = imread(filepath + "/images" + capture_name + "_IMG_" + time_string +".jpg");
+	img = imread(filepath + "/images" + capture_name + "_IMG_" + time_string 
 
 	writerpath = filepath + capture_name + "_video.avi";
 	cerr<<"Opening VideoWriter at"<< writerpath<< endl;
@@ -103,5 +80,6 @@ int main(int argc, char ** argv){
 	in_file.close();
 	out.release();
 
-	return 0;	
+*/	return 0;	
 }
+

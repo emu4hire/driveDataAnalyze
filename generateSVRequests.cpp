@@ -8,7 +8,6 @@ int main(int argc, char ** argv){
 	
 	string filepath;
 	string capturename;
-	int offset = 40;
 	
 	if(argc < 2){
 		cerr<<"Bad input. Please input a fully qualified filename of a DriveData folder"<<endl;
@@ -86,63 +85,6 @@ int main(int argc, char ** argv){
 			out<<'\n';
         }
 	out.close();
-
-        outfilename = filepath + "/analysis"+ capturename + "_svRequestsLeft.dat";
-        cout<<"    --OUT_LEFT:"<<outfilename<<endl;
-        out.open(outfilename.c_str(), std::fstream::out);
-
-        if(!out){
-                cerr<<"FILE COULD NOT BE OPENED"<<endl;
-        }
-
-        i=0;
-	int temp;
-
-        while(i<k-1){
-                out<<"https://maps.googleapis.com/maps/api/streetview?";
-                out<<"size=640x640&";
-                out<<"location="<<lat[i]<<","<<lng[i]<<"&";
-		temp = orient[i]-offset;
-		if(temp < 0)
-			temp += 360;
-                out<<"heading="<<temp<<"&";
-                out<<"key="<<key;
-                i++;
-
-		if(i<k-1)
-                        out<<'\n';
-        }
-        out.close();
-
-        outfilename = filepath + "/analysis"+ capturename + "_svRequestsRight.dat";
-        cout<<"    --OUT_RIGHT:"<<outfilename<<endl;
-        out.open(outfilename.c_str(), std::fstream::out);
-
-        if(!out){
-                cerr<<"FILE COULD NOT BE OPENED"<<endl;
-        }
-
-        i=0;
-
-        while(i<k-1){
-                out<<"https://maps.googleapis.com/maps/api/streetview?";
-                out<<"size=640x640&";
-                out<<"location="<<lat[i]<<","<<lng[i]<<"&";
-		temp = orient[i]+offset;
-		if(temp > 360)
-			temp -=360;
-                out<<"heading="<<temp<<"&";
-                out<<"key="<<key;
-
-                i++;
-
-		if(i<k-1)
-                        out<<'\n';
-
-        }
-        out.close();
-
-
 
 	return 0;
 }
