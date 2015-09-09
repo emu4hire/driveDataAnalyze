@@ -10,7 +10,7 @@ using namespace std;
 using namespace cv;
 
 int main(int argc, char ** argv){
-
+/*
 	string filepath;
 	string output_name;
 	int delay=0;
