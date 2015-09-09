@@ -76,6 +76,7 @@ bool sort_names (string i, string j){
 	jtemp = jtemp.substr(0, jdot);
 
 	stringstream(itemp)>> i_num;
+	stringstream(jtemp)>>j_num;
 	
 	return (i_num < j_num);
 }
