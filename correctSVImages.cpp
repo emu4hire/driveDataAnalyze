@@ -41,7 +41,7 @@ int main (int argc, char ** argv){
 
 	in.close();
 
-	Mat img, compare;
+	Mat img, compare, ideal;
 	compare = imread("no_imagery.jpg");
 	string fullImgName;
 	vector <string> toWrite;

@@ -20,7 +20,7 @@ int main(int argc, char ** argv){
 
 	ifstream in_key;
 	char key[100];
-	in_key.open("key.txt");
+	in_key.open("./config/key.txt");
 	in_key.getline(key, 100, '\n');
 	in_key.close();
 
