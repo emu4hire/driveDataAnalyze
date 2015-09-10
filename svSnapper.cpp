@@ -46,13 +46,13 @@ int main(int argc, char ** argv){
 	system(command.c_str());
 
 	cout<<"  --Making Directories for StreetView Requests"<<endl;
-	command = "mkdir " + filepath + "/analysis/SVCenter";
+	command = "mkdir " + filepath + "/analysis/SVImages";
 	system(command.c_str());
 
 	ifstream in;
 
 	string inName = filepath + "/analysis/" + capturename + "_svRequests.dat";
-	string outName = filepath + "/analysis/SVCenter/afternoon_Center";	
+	string outName = filepath + "/analysis/SVImages/afternoon";	
 	in.open(inName.c_str());
 
 	int i = 0;
@@ -64,11 +64,13 @@ int main(int argc, char ** argv){
 	do{
 		in.getline(buffer, 200, '\n');
 		buffy_the_vampire_slayer = buffer;
+		if(buffy_the_vampire_slayer == "")
+			continue;
 
 		intstream.str("");
 		intstream << i;
 		incr = intstream.str();
-
+		
 		command = "wget \"" + buffy_the_vampire_slayer + "\" --output-document=" + outName + "_" + incr + ".jpg";
 		cerr<<"BUFFY:"<<buffy_the_vampire_slayer<<endl;
 		cerr<<command<<endl;
@@ -78,6 +80,11 @@ int main(int argc, char ** argv){
 
 	}while(in);
 	in.close();
-	
+
+	command = "mkdir " + filepath + "/analysis/SVImages/";
+	system(command.c_str());
+	command = "./genImgList " + filepath + "/analysis/SVImages/";
+	system(command.c_str());
+		
 	return 0;
 }
