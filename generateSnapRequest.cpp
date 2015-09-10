@@ -69,7 +69,7 @@ int main(int argc, char ** argv){
 
 	out<<"&interpolate=true";
 	ifstream in_key;
-	in_key.open("key.txt");
+	in_key.open("./config/key.txt");
 	char key[100];
 
 	in_key.getline(key, 100, '\n');
