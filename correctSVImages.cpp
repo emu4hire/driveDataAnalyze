@@ -41,68 +41,12 @@ int main (int argc, char ** argv){
 
 	in.close();
 
-	Mat img, compare, ideal, color;
+	Mat img, compare;
 
 	string fullImgName;
 	vector <string> toWrite;
 	
 	compare = imread("./config/no_imagery.jpg");
-	ideal = imread( "./config/ideal.jpg");
-
-	Vec3b pixel;
-	Vec4f outLine_ideal, outLine;
-	vector<Point> points_ideal;
-
-	int threshV[6];
-	ifstream in_thresh;
-	in_thresh.open("./config/threshold_values.txt");
-
-	if(!in_thresh){
-		cerr<<"ERROR Opening threshold config file"<<endl;
-		exit(1);
-	}
-	
-	int w=0;
-	do{
-		in_thresh >> threshV[w];
-		w++;
-	}while(w <6);
-
-	in_thresh.close();
-	cvtColor(ideal, color, CV_BGR2HSV, 3);
-	
-	for(int i=0; i<color.rows; i++){
-		for(int j=0; j<color.cols;j++){
-			pixel = color.at<Vec3b>(Point(j,i));
-			if( (i > ( 2* color.rows / 3 )) && (j > color.cols/3 &&  j <(2* color.rows /3))
-			&& (pixel[0] > threshV[0] && pixel[0] < threshV[1]) 
-			&& (pixel[1] > threshV[2] && pixel[1] < threshV[3] ) 
-			&& (pixel[2] > threshV[4] && pixel[2] < threshV[5] ))
-				points_ideal.push_back(Point(j,i));
-				
-		}
-
-	}
-
-	fitLine(points_ideal, outLine_ideal, CV_DIST_FAIR, 0, 0.01, 0.01);
-	
-	double m = max(color.rows, color.cols);
-	Point Cp1, Cp2;
-
-	Cp1.x = outLine_ideal[2] - m*outLine_ideal[0];
-	Cp1.y = outLine_ideal[3] - m*outLine_ideal[1];
-	Cp2.x = outLine_ideal[2] + m*outLine_ideal[0];
-	Cp2.y = outLine_ideal[3] + m*outLine_ideal[1];
-
-	line(ideal, Cp1, Cp2, Scalar(0, 0, 255), 3, CV_AA, 0);
-	
-        for(int k=0; k < points_ideal.size(); k++){
- 	       circle(ideal, points_ideal[k], 1, Scalar(255, 0, 0), -1,CV_AA, 0);
-        }
-
-	
-
-	imwrite("test.jpg", ideal);
 
 	for(int i=0; i< filenames.size()-1; i++){
 		fullImgName = filepath+filenames[i];
@@ -121,47 +65,6 @@ int main (int argc, char ** argv){
 		}
 	
 		else{
-			vector<Point> points;
-
-			outLine[0]=outLine[1]=outLine[2]=outLine[3]=0;
-
-			cvtColor(img, color, CV_BGR2HSV, 3);
-
-		        for(int x=0; x<color.rows; x++){
-                		for(int y=0; y<color.cols;y++){
-		                        pixel = color.at<Vec3b>(Point(y,x));
-                		        if( (x > ( 2* color.rows / 3 )) && (y > color.cols/3 &&  y <(2* color.rows /3))
-		                        && (pixel[0] > threshV[0] && pixel[0] < threshV[1])
-		                        && (pixel[1] > threshV[2] && pixel[1] < threshV[3] )
-		                        && (pixel[2] > threshV[4] && pixel[2] < threshV[5] ))
-                		                points.push_back(Point(y,x));
-
-		                }		
-
-		        }	
-
-			cerr<<"NUMBER OF POINTS "<<points.size()<<endl;
-			if(points.size() > 0){
-				fitLine(points, outLine, CV_DIST_FAIR, 0, 0.01, 0.01);
-			}
-
-
-		        m = max(color.rows, color.cols);
-
-		        Cp1.x = outLine[2] - m*outLine[0];
-        		Cp1.y = outLine[3] - m*outLine[1];
-		        Cp2.x = outLine[2] + m*outLine[0];
-		        Cp2.y = outLine[3] + m*outLine[1];
-
-		        line(ideal, Cp1, Cp2, Scalar(0, 0, 255), 3, CV_AA, 0);
-
-		        for(int k=0; k < points.size(); k++){
-		               circle(img, points[k], 1, Scalar(255, 0, 0), -1,CV_AA, 0);
-		        }
-
-			imwrite(fullImgName.c_str(), img);
-			
-
 			toWrite.push_back(filenames[i]);
 			
 		}
