@@ -59,6 +59,35 @@ int main(int argc, char ** argv){
 
 	command = "./correctSV " +filepath + "/analysis/SVImages/";
 	system(command.c_str());
+
+	ifstream in;
+	command = filepath + "/analysis/SVImages/img_list.txt";
+	in.open(command.c_str());
+
+	if(!in){
+		cerr<<"ERROR opening " <<command<<endl;
+		exit(1);
+	}
+	int n=0;
+	in >> n;
+	string s[n];
+	
+	for(int i=0; i<n;i++){
+		in >> s[i];
+	}
+	
+	string k, l, x;
+	k = filepath + "/analysis/SVImages/";
+	l = filepath + "/analysis" + capturename + "_snappedPose.dat";
+
+	for(int i=0; i<n; i++){
+		x = k + s[i];
+		cerr<<x<<" "<<l<<endl;
+		command = "./rotateSV " + x + " " + l;
+		system(command.c_str());
+		
+	}
+		
 		
 	return 0;
 }
