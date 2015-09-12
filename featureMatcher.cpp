@@ -58,13 +58,13 @@ int main( int argc, char ** argv){
 
 	std::vector<DMatch> good_matches;
 	for(int i=0; i<descript1.rows; i++){
-		if( matches[i].distance <= max(2*min_dist, 0.02)){
+		if( matches[i].distance <= max(min_dist, 0.02)){
 			good_matches.push_back( matches[i]); 
 		}
 	}
 
 	Mat imgMatch;
-	drawMatches(img1, kp1, img2, kp2, matches, imgMatch, 
+	drawMatches(img1, kp1, img2, kp2, good_matches, imgMatch, 
 			Scalar::all(-1), Scalar::all(-1), vector<char>(), 
 			DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 

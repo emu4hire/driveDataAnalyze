@@ -15,6 +15,7 @@ add_executable( correctSV correctSVImages.cpp)
 add_executable( executeSV executeSVRequests.cpp)
 add_executable( featureMatcher featureMatcher.cpp)
 add_executable( rotateSV SVRotator.cpp )
+add_executable( matchAll matchAll.cpp )
 
 target_link_libraries( vdmaker ${OpenCV_LIBS} )
 target_link_libraries( correctSV ${OpenCV_LIBS} )
