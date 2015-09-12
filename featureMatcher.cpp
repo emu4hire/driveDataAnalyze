@@ -21,18 +21,15 @@ int main( int argc, char ** argv){
 	filename = argv[2];
 	Mat img2 = imread(filename.c_str());
 
+	resize(img1, img1, Size(640, 640), 0, 0, INTER_LINEAR);
+	resize(img2, img2, Size(640, 640), 0, 0, INTER_LINEAR);
+
 	Mat gray1, gray2;
-	resize(img1, img1, Size(0, 0), 0.25, 0.25, INTER_LINEAR);
-	
 	
 	std::vector<KeyPoint> kp1, kp2;
 
-//	FAST(gray, keypoints, 20, true);
-//	Canny(gray ,dst, 50, 200, 3);
-
 	Ptr<ORB> orb = ORB::create(500, 1.2, 8, 30, 0, 2, ORB::HARRIS_SCORE, 31);
 	orb->detect(img1, kp1);
-	
 	orb->detect(img2, kp2);
 
 	drawKeypoints( img1, kp1, img1, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
@@ -40,9 +37,14 @@ int main( int argc, char ** argv){
 	Mat descript1, descript2;
 	orb->compute(img1, kp1, descript1);
 	orb->compute(img2, kp2, descript2);
+	descript1.convertTo(descript1, CV_32F);
+	descript2.convertTo(descript2, CV_32F);
 
-	BFMatcher matcher;
+	FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
 	std:vector<DMatch> matches;
+
+	matcher.add(descript1);
+	matcher.train();
 	matcher.match( descript1, descript2, matches);
 	
 	double max_dist = 0;
@@ -62,13 +64,27 @@ int main( int argc, char ** argv){
 	}
 
 	Mat imgMatch;
-	drawMatches(img1, kp1, img2, kp2, good_matches, imgMatch, 
+	drawMatches(img1, kp1, img2, kp2, matches, imgMatch, 
 			Scalar::all(-1), Scalar::all(-1), vector<char>(), 
 			DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
+	if(matches.size() > 0){
+		string dst_filepath, dst_filename;
+		size_t d = filename.find_last_of('/');
+		dst_filepath = filename.substr(0,d);
+		dst_filename = filename.substr(d, filename.length());
+		d = dst_filepath.find_last_of('/');
+		dst_filepath = dst_filepath.substr(0, d);
 
-	imshow("MATCHES", imgMatch);
-	waitKey(0);
+		dst_filepath = dst_filepath + "/matches";
+		string command = "mkdir " + dst_filepath;
+		system(command.c_str());
+		
+		dst_filepath = dst_filepath+dst_filename;
+		
+		
+		imwrite(dst_filepath.c_str(), imgMatch);
+	}
 
 	return 0;
 }
