@@ -25,26 +25,30 @@ int main( int argc, char ** argv){
 	resize(img2, img2, Size(640, 640), 0, 0, INTER_LINEAR);
 
 	Mat gray1, gray2;
+	cvtColor(img1, gray1, CV_BGR2GRAY);
+	cvtColor(img2, gray2, CV_BGR2GRAY);
 	
 	std::vector<KeyPoint> kp1, kp2;
 
 	Ptr<ORB> orb = ORB::create(500, 1.2, 8, 30, 0, 2, ORB::HARRIS_SCORE, 31);
-	orb->detect(img1, kp1);
-	orb->detect(img2, kp2);
+	orb->detect(gray1, kp1);
+	orb->detect(gray2, kp2);
 
 	drawKeypoints( img1, kp1, img1, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
 	drawKeypoints( img2, kp2, img2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+
 	Mat descript1, descript2;
 	orb->compute(img1, kp1, descript1);
 	orb->compute(img2, kp2, descript2);
 	descript1.convertTo(descript1, CV_32F);
 	descript2.convertTo(descript2, CV_32F);
 
-	FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
+	//FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
 	std:vector<DMatch> matches;
 
-	matcher.add(descript1);
-	matcher.train();
+	//matcher.add(descript1);
+	//matcher.train();
+	BFMatcher matcher;
 	matcher.match( descript1, descript2, matches);
 	
 	double max_dist = 0;
@@ -58,7 +62,7 @@ int main( int argc, char ** argv){
 
 	std::vector<DMatch> good_matches;
 	for(int i=0; i<descript1.rows; i++){
-		if( matches[i].distance <= max(min_dist, 0.02)){
+		if( matches[i].distance <= max(2.25*min_dist, 0.02)){
 			good_matches.push_back( matches[i]); 
 		}
 	}
@@ -77,7 +81,7 @@ int main( int argc, char ** argv){
 		dst_filepath = dst_filepath.substr(0, d);
 
 		dst_filepath = dst_filepath + "/matches";
-		string command = "mkdir " + dst_filepath;
+		string command = "mkdir -p " + dst_filepath;
 		system(command.c_str());
 		
 		dst_filepath = dst_filepath+dst_filename;
