@@ -2,6 +2,7 @@
 #include<opencv2/highgui/highgui.hpp>
 #include<opencv2/imgproc/imgproc.hpp>
 #include<opencv2/features2d/features2d.hpp>
+#include<opencv2/calib3d/calib3d.hpp>
 #include<iostream>
 #include<cstdlib>
 #include<string>
@@ -30,7 +31,7 @@ int main( int argc, char ** argv){
 	
 	std::vector<KeyPoint> kp1, kp2;
 
-	Ptr<ORB> orb = ORB::create(500, 2, 8, 10, 0, 3, ORB::HARRIS_SCORE, 10);
+	Ptr<ORB> orb = ORB::create(500, 1.2, 8, 15, 0, 3, ORB::HARRIS_SCORE, 15);
 	orb->detect(gray1, kp1);
 	orb->detect(gray2, kp2);
 
@@ -43,12 +44,12 @@ int main( int argc, char ** argv){
 	descript1.convertTo(descript1, CV_32F);
 	descript2.convertTo(descript2, CV_32F);
 
-	FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
+	FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(5), new flann::SearchParams(64));
 	std:vector<DMatch> matches;
 
 	matcher.add(descript1);
 	matcher.train();
-	//BFMatcher matcher;
+//	BFMatcher matcher;
 	matcher.match( descript1, descript2, matches);
 	
 	double max_dist = 0;
@@ -61,18 +62,26 @@ int main( int argc, char ** argv){
 	}
 
 	std::vector<DMatch> good_matches;
+
 	for(int i=0; i<descript1.rows; i++){
-		if( matches[i].distance <= max(2.25*min_dist, 0.02)){
+		if( matches[i].distance <= max(4*min_dist, 0.02)){
 			good_matches.push_back( matches[i]); 
 		}
 	}
+	
+	std::vector<Point2f> obj;
+	std::vector<Point2f> scene;
 
+	for( int i = 0; i < good_matches.size(); i++ )
+	{
+		obj.push_back( kp1[ good_matches[i].queryIdx ].pt );
+		scene.push_back( kp2[ good_matches[i].trainIdx ].pt );
+	}
 	Mat imgMatch;
 	drawMatches(gray1, kp1, gray2, kp2, good_matches, imgMatch, 
 			Scalar::all(-1), Scalar::all(-1), vector<char>(), 
 			DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
-	if(good_matches.size() > 2){
 		string dst_filepath, dst_filename;
 		size_t d = filename.find_last_of('/');
 		dst_filepath = filename.substr(0,d);
@@ -88,7 +97,6 @@ int main( int argc, char ** argv){
 		
 		
 		imwrite(dst_filepath.c_str(), imgMatch);
-	}
 
 	return 0;
 }
