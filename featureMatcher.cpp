@@ -30,7 +30,7 @@ int main( int argc, char ** argv){
 	
 	std::vector<KeyPoint> kp1, kp2;
 
-	Ptr<ORB> orb = ORB::create(500, 1.2, 8, 30, 0, 2, ORB::HARRIS_SCORE, 31);
+	Ptr<ORB> orb = ORB::create(500, 2, 8, 10, 0, 3, ORB::HARRIS_SCORE, 10);
 	orb->detect(gray1, kp1);
 	orb->detect(gray2, kp2);
 
@@ -43,12 +43,12 @@ int main( int argc, char ** argv){
 	descript1.convertTo(descript1, CV_32F);
 	descript2.convertTo(descript2, CV_32F);
 
-	//FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
+	FlannBasedMatcher matcher ( new flann::KDTreeIndexParams(4), new flann::SearchParams(64));
 	std:vector<DMatch> matches;
 
-	//matcher.add(descript1);
-	//matcher.train();
-	BFMatcher matcher;
+	matcher.add(descript1);
+	matcher.train();
+	//BFMatcher matcher;
 	matcher.match( descript1, descript2, matches);
 	
 	double max_dist = 0;
@@ -72,7 +72,7 @@ int main( int argc, char ** argv){
 			Scalar::all(-1), Scalar::all(-1), vector<char>(), 
 			DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
-	if(matches.size() > 0){
+	if(good_matches.size() > 2){
 		string dst_filepath, dst_filename;
 		size_t d = filename.find_last_of('/');
 		dst_filepath = filename.substr(0,d);
