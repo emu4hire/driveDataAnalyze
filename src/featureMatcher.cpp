@@ -68,7 +68,7 @@ int main( int argc, char ** argv){
 	}
 
 	Mat imgMatch;
-	drawMatches(img1, kp1, img2, kp2, good_matches, imgMatch, 
+	drawMatches(gray1, kp1, gray2, kp2, good_matches, imgMatch, 
 			Scalar::all(-1), Scalar::all(-1), vector<char>(), 
 			DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
