@@ -1,6 +1,7 @@
 #include <iostream>
 #include<cstdlib>
 #include<fstream>
+#include<iomanip>
 
 using namespace std;
 
@@ -8,6 +9,7 @@ int main(int argc, char ** argv){
 	
 	string filepath;
 	string capturename;
+        int pres = 10;
 	
 	if(argc < 2){
 		cerr<<"Bad input. Please input a fully qualified filename of a DriveData folder"<<endl;
@@ -76,7 +78,7 @@ int main(int argc, char ** argv){
         while(i<k-1){
 		out<<"https://maps.googleapis.com/maps/api/streetview?";
 		out<<"size=640x640&";
-		out<<"location="<<lat[i]<<","<<lng[i]<<"&";
+		out<<"location="<<setprecision(pres)<<lat[i]<<","<<setprecision(pres)<<lng[i]<<"&";
 		out<<"heading="<<orient[i]<<"&";
 		out<<"key="<<key;
 		i++;

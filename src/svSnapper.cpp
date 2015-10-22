@@ -46,13 +46,13 @@ int main(int argc, char ** argv){
 	system(command.c_str());
 
 	cout<<"  --Making Directories for StreetView Requests"<<endl;
-	command = "mkdir " + filepath + "/analysis/SVImages";
+	command = "mkdir -p " + filepath + "/analysis/SVImages";
 	system(command.c_str());
 
 	command = "./executeSV " +filepath;
 	system(command.c_str());
 
-	command = "mkdir " + filepath + "/analysis/SVImages/";
+	command = "mkdir -p " + filepath + "/analysis/SVImages/";
 	system(command.c_str());
 	command = "./genImgList " + filepath + "/analysis/SVImages/";
 	system(command.c_str());

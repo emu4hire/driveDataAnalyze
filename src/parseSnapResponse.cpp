@@ -1,6 +1,7 @@
 #include <iostream>
 #include<cstdlib>
 #include<fstream>
+#include<iomanip>
 
 using namespace std;
 
@@ -8,6 +9,7 @@ int main(int argc, char ** argv){
 	
 	string filepath;
 	string capturename;
+        int pres = 10;
 	
 	if(argc < 2){
 		cerr<<"Bad input. Please input a fully qualified filename of a DriveData folder"<<endl;
@@ -80,7 +82,7 @@ int main(int argc, char ** argv){
 		in_response.getline(buffer, 500 ,'}');
 		in_response.getline(buffer, 100 ,'\n');
 
-		out<<lat<<" , "<<lng<<" , "<<orient[i];
+		out<<setprecision(pres)<<lat<<" , "<<setprecision(pres)<<lng<<" , "<<orient[i];
 		i++;
 		if(i<k)
 			out<<endl;
