@@ -40,7 +40,7 @@ int main( int argc, char ** argv){
 
 	Mat descript1, descript2;
 	orb->compute(img1, kp1, descript1);
-	orb->compute(img2, kp2, descript2);
+        orb->compute(img2, kp2, descript2);
 	descript1.convertTo(descript1, CV_32F);
 	descript2.convertTo(descript2, CV_32F);
 
